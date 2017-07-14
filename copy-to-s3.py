@@ -41,10 +41,12 @@ def lambda_handler(event, context):
         try:
             for url in urls:
                 copy_to_s3(url, bucket)
-            
+
         except Exception as e:
             print(e)
-            cfnresponse.send(event, context, cfnresponse.FAILED, {'Response': 'Failure'})
+            cfnresponse.send(event, context, cfnresponse.FAILED, {
+                             'Response': 'Failure'})
             return
 
-    cfnresponse.send(event, context, cfnresponse.SUCCESS, {'Response': 'Success'})
+    cfnresponse.send(event, context, cfnresponse.SUCCESS,
+                     {'Response': 'Success'})
