@@ -8,13 +8,13 @@ import cfnresponse
 
 print('Loading function')
 
-s3 = boto3.client('s3')
+s3 = boto3.resource('s3')
 
 
 def save_to_local(url):
     urlPath = urlparse(url).path
     fileName = os.path.basename(urlPath)
-    filePath = '/tmp' + fileName
+    filePath = '/tmp/' + fileName
     urllib.request.urlretrieve(url, filePath)
     return filePath
 
@@ -32,7 +32,7 @@ def copy_to_s3(url, bucket):
 def lambda_handler(event, context):
     print("Received event: " + json.dumps(event, indent=2))
 
-    if event.RequestType == 'Create':
+    if event['RequestType'] == 'Create':
         # get the properties set in the CloudFormation resource
         properties = event['ResourceProperties']
         urls = properties['Urls']
